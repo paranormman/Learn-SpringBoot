@@ -1,6 +1,7 @@
 package com.vestachrono.HomeworkApplication.CakeBaker;
 
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,11 @@ public class CakeBaker {
         this.frosting = frosting;
         this.syrup = syrup;
 
+    }
+
+    @PostConstruct
+    void printThisBeforeCake(){
+        System.out.println("Choose your cake topping type");
     }
 
     public void bakeCake(){
