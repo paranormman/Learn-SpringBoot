@@ -4,6 +4,7 @@ package com.vestachrono.springweblearning.springweblearning.controllers;
 import com.vestachrono.springweblearning.springweblearning.dto.EmployeeDTO;
 import com.vestachrono.springweblearning.springweblearning.entities.EmployeeEntity;
 import com.vestachrono.springweblearning.springweblearning.repositories.EmployeeRepository;
+import com.vestachrono.springweblearning.springweblearning.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -18,26 +19,26 @@ public class EmployeeController {
 //        return "This is my Secret message @#&&!^(&&^!^&*";
 //    }
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     @GetMapping(path = "/{employeeId}")
-    public EmployeeEntity getEmployeeByID(@PathVariable(name = "employeeId") Long id){
-        return employeeRepository.findById(id).orElse(null);
+    public EmployeeDTO getEmployeeByID(@PathVariable(name = "employeeId") Long id){
+        return employeeService.getEmployeeByID(id);
     }
 
     @GetMapping
-    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false, name = "inputAge") Integer age,
+    public List<EmployeeDTO> getAllEmployees(@RequestParam(required = false, name = "inputAge") Integer age,
                                                 @RequestParam(required = false) String sortBy){
-        return employeeRepository.findAll();
+        return employeeService.getAllEmployees();
     }
 
     @PostMapping
-    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity inputEmployee) {
-        return employeeRepository.save(inputEmployee);
+    public EmployeeDTO createNewEmployee(@RequestBody EmployeeEntity inputEmployee) {
+        return employeeService.createNewEmployee(inputEmployee);
     }
 
     @PutMapping
