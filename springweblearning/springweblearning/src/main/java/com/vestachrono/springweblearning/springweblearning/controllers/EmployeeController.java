@@ -3,12 +3,11 @@ package com.vestachrono.springweblearning.springweblearning.controllers;
 
 import com.vestachrono.springweblearning.springweblearning.dto.EmployeeDTO;
 import com.vestachrono.springweblearning.springweblearning.entities.EmployeeEntity;
-import com.vestachrono.springweblearning.springweblearning.repositories.EmployeeRepository;
 import com.vestachrono.springweblearning.springweblearning.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/employees")
@@ -41,14 +40,20 @@ public class EmployeeController {
         return employeeService.createNewEmployee(inputEmployee);
     }
 
-    @PutMapping
-    public String updateEmployeeById() {
-        return  "Hello from PUT";
+    @PutMapping(path = "/{employeeId}")
+    public EmployeeDTO updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
+    return employeeService.updateEmployeeById(employeeId, employeeDTO);
     }
 
-    @PatchMapping
-    public String updateEmployee() {
-        return  "Hello from PUT";
+    @DeleteMapping(path = "/{employeeId}")
+    public boolean deleteByEmployeeId(@PathVariable Long employeeId) {
+        return employeeService.deleteByEmployeeId(employeeId);
+    }
+
+    @PatchMapping(path = "/{employeeId}")
+    public EmployeeDTO updatePartialEmployeeById(@RequestBody Map<String, Object> updates,
+                                                 @PathVariable Long employeeId) {
+        return employeeService.updatePartialEmployeeById(employeeId, updates);
     }
 
 }
