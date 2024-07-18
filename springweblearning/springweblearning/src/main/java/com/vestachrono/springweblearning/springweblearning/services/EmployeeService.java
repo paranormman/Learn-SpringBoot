@@ -2,7 +2,7 @@ package com.vestachrono.springweblearning.springweblearning.services;
 import com.vestachrono.springweblearning.springweblearning.dto.EmployeeDTO;
 import com.vestachrono.springweblearning.springweblearning.entities.EmployeeEntity;
 import com.vestachrono.springweblearning.springweblearning.repositories.EmployeeRepository;
-import org.apache.el.util.ReflectionUtil;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
@@ -41,7 +41,7 @@ public class EmployeeService {
 
     }
 
-    public EmployeeDTO createNewEmployee(EmployeeEntity inputEmployee) {
+    public EmployeeDTO createNewEmployee(@Valid EmployeeDTO inputEmployee) {
         EmployeeEntity toSaveEntity = modelMapper.map(inputEmployee, EmployeeEntity.class);
         EmployeeEntity savedEmployeeEntity = employeeRepository.save(toSaveEntity);
         return modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
