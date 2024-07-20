@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-IntroductionToSpringBootApplication<Introduction-To-SpringBoot>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.vestachrono.manoj.week1intoduction.Introduction.To.SpringBoot.IntroductionToSpringBootApplication",
+            "projectName": "Introduction-To-SpringBoot",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
