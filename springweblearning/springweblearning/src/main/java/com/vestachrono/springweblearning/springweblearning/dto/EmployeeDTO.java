@@ -1,5 +1,6 @@
 package com.vestachrono.springweblearning.springweblearning.dto;
 
+import com.vestachrono.springweblearning.springweblearning.annotations.EmployeeRoleValidation;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +33,8 @@ public class EmployeeDTO {
     private Integer age;
 
     @NotNull(message = "Role Field cannot be null")
-    @Pattern(regexp = "^(ADMIN|USER)$", message = "Role of Employee can either be ADMIN or USER ")
+//    @Pattern(regexp = "^(ADMIN|USER)$", message = "Role of Employee can either be ADMIN or USER ")
+    @EmployeeRoleValidation
     private String role; // ADMIN or USER in specific
 
     @PastOrPresent(message = "dateOfJoining can be past or present date not future")
