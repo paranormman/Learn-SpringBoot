@@ -3,6 +3,7 @@ package com.vestachrono.springweblearning.springweblearning.controllers;
 
 import com.vestachrono.springweblearning.springweblearning.dto.EmployeeDTO;
 import com.vestachrono.springweblearning.springweblearning.entities.EmployeeEntity;
+import com.vestachrono.springweblearning.springweblearning.exceptions.ResourceNotFoundException;
 import com.vestachrono.springweblearning.springweblearning.services.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -35,7 +37,7 @@ public class EmployeeController {
 //        return ResponseEntity.ok(employeeDTO);
         return  employeeDTO
                 .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with ID : " + id));
     }
 
     @GetMapping
