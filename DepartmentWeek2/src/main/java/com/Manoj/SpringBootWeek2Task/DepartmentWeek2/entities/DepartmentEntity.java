@@ -1,5 +1,6 @@
-package com.Manoj.SpringBootWeek2Task.DepartmentWeek2.dto;
+package com.Manoj.SpringBootWeek2Task.DepartmentWeek2.entities;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +12,16 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DepartmentDTO {
+@Entity
+@Table(name = "departments")
+public class DepartmentEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private String email;
     private Boolean isActive;
     private LocalDate createdAt;
+
 }
