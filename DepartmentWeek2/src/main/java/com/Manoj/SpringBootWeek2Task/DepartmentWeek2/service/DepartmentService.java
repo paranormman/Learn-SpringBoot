@@ -5,9 +5,13 @@ import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.dto.DepartmentDTO;
 import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.entities.DepartmentEntity;
 import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.repository.DepartmentRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,9 +25,9 @@ public class DepartmentService {
         this.modelMapper = modelMapper;
     }
 
-    public DepartmentDTO getDepartmentById(Long departmentId) {
-        DepartmentEntity departmentEntity = departmentRepository.findById(departmentId).orElse(null);
-        return modelMapper.map(departmentEntity, DepartmentDTO.class);
+    public Optional<DepartmentDTO> getDepartmentById(Long departmentId) {
+        return departmentRepository.findById(departmentId).map(departmentEntity -> modelMapper.map(departmentEntity, DepartmentDTO.class));
+
     }
 
     public List<DepartmentDTO> getAllDepartments() {
@@ -41,10 +45,33 @@ public class DepartmentService {
     }
 
     public boolean deleteDepartmentId(Long departmentId) {
-        boolean exists = departmentRepository.existsById(departmentId);
-        if(!exists) return false;
+        boolean exists = isExistsByDepartmentId(departmentId);
+        if (!exists) return false;
         departmentRepository.deleteById(departmentId);
         return true;
     }
 
+    public DepartmentDTO updateDepartmentById(Long departmentId, DepartmentDTO departmentDTO) {
+        isExistsByDepartmentId(departmentId);
+        DepartmentEntity departmentEntity = modelMapper.map(departmentDTO, DepartmentEntity.class);
+        departmentEntity.setId(departmentId);
+        DepartmentEntity savedDepartmentEntity = departmentRepository.save(departmentEntity);
+        return modelMapper.map(savedDepartmentEntity, DepartmentDTO.class);
+    }
+
+    public Boolean isExistsByDepartmentId(Long departmentId) {
+        return departmentRepository.existsById(departmentId);
+    }
+
+    public DepartmentDTO updatePartialDepartmentById(Long departmentId, Map<String, Object> updates) {
+        boolean exists = isExistsByDepartmentId(departmentId);
+        if(!exists) return null;
+        DepartmentEntity departmentEntity = departmentRepository.findById(departmentId).get();
+        updates.forEach((field, value) -> {
+            Field fieldToUpdated = ReflectionUtils.findRequiredField(DepartmentEntity.class, field);
+            fieldToUpdated.setAccessible(true);
+            ReflectionUtils.setField(fieldToUpdated, departmentEntity, value);
+        });
+        return modelMapper.map(departmentRepository.save(departmentEntity), DepartmentDTO.class);
+    }
 }
