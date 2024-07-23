@@ -23,5 +23,7 @@ public class DepartmentEntity {
     private String email;
     private Boolean isActive;
     private LocalDate createdAt;
-
+    private String role;
+    private Integer checkIsPrime;
+    private String passwordCheck;
 }

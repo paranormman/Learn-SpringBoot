@@ -1,5 +1,8 @@
 package com.Manoj.SpringBootWeek2Task.DepartmentWeek2.dto;
 
+import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.annotations.CheckIsPrimeValidation;
+import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.annotations.DepartmentRoleValidation;
+import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.annotations.PasswordCheckValidation;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,4 +34,14 @@ public class DepartmentDTO {
 
     @Past(message = "Date of creation can be past not present or future")
     private LocalDate createdAt;
+
+    @NotBlank(message = "Department Role can not be null")
+    @DepartmentRoleValidation
+    private String role;
+
+    @CheckIsPrimeValidation
+    private Integer checkIsPrime;
+
+    @PasswordCheckValidation
+    private String passwordCheck;
 }
