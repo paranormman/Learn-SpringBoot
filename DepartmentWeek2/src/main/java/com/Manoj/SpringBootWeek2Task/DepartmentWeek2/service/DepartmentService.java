@@ -3,6 +3,7 @@ package com.Manoj.SpringBootWeek2Task.DepartmentWeek2.service;
 
 import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.dto.DepartmentDTO;
 import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.entities.DepartmentEntity;
+import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.exceptions.ResourceNotFoundException;
 import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.repository.DepartmentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
@@ -45,8 +46,7 @@ public class DepartmentService {
     }
 
     public boolean deleteDepartmentId(Long departmentId) {
-        boolean exists = isExistsByDepartmentId(departmentId);
-        if (!exists) return false;
+        isExistsByDepartmentId(departmentId);
         departmentRepository.deleteById(departmentId);
         return true;
     }
@@ -59,13 +59,13 @@ public class DepartmentService {
         return modelMapper.map(savedDepartmentEntity, DepartmentDTO.class);
     }
 
-    public Boolean isExistsByDepartmentId(Long departmentId) {
-        return departmentRepository.existsById(departmentId);
+    public void isExistsByDepartmentId(Long departmentId) {
+        boolean exists = departmentRepository.existsById(departmentId);
+        if (!exists) throw new ResourceNotFoundException("Department not found with ID "+ departmentId);
     }
 
     public DepartmentDTO updatePartialDepartmentById(Long departmentId, Map<String, Object> updates) {
-        boolean exists = isExistsByDepartmentId(departmentId);
-        if(!exists) return null;
+        isExistsByDepartmentId(departmentId);
         DepartmentEntity departmentEntity = departmentRepository.findById(departmentId).get();
         updates.forEach((field, value) -> {
             Field fieldToUpdated = ReflectionUtils.findRequiredField(DepartmentEntity.class, field);

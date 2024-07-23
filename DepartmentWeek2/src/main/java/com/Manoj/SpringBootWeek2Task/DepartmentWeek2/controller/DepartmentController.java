@@ -2,6 +2,7 @@ package com.Manoj.SpringBootWeek2Task.DepartmentWeek2.controller;
 
 
 import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.dto.DepartmentDTO;
+import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.exceptions.ResourceNotFoundException;
 import com.Manoj.SpringBootWeek2Task.DepartmentWeek2.service.DepartmentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -28,7 +30,7 @@ public class DepartmentController {
         Optional<DepartmentDTO> departmentDTO = departmentService.getDepartmentById(departmentId);
         return departmentDTO
                 .map(departmentDTO1 -> ResponseEntity.ok(departmentDTO1))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("Department not found with id "+ departmentId));
     }
 
     @GetMapping
@@ -58,7 +60,7 @@ public class DepartmentController {
     }
 
     @PatchMapping(path = "/{departmentId}")
-    public ResponseEntity<DepartmentDTO> updatePartialDepartmentById(@RequestBody Map<String, Object> updates,
+    public ResponseEntity<DepartmentDTO> updatePartialDepartmentById(@RequestBody @Valid Map<String, Object> updates,
                                                      @PathVariable Long departmentId) {
         DepartmentDTO departmentDTO = departmentService.updatePartialDepartmentById(departmentId, updates);
         if(departmentDTO == null) return ResponseEntity.notFound().build();

@@ -9,6 +9,7 @@ public class DepartmentRoleValidator implements ConstraintValidator<DepartmentRo
 
     @Override
     public boolean isValid(String inputRole, ConstraintValidatorContext constraintValidatorContext) {
+        if(inputRole == null) return false;
         List<String> role = List.of("Manager", "HR", "Admin");
         return role.contains(inputRole);
     }
