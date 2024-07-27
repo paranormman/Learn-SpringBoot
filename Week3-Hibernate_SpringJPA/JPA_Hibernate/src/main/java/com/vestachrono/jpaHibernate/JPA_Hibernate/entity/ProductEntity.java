@@ -1,6 +1,5 @@
 package com.vestachrono.jpaHibernate.JPA_Hibernate.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,11 +9,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Builder
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
 @Table(
         name = "product_table",
         uniqueConstraints = {
@@ -24,7 +22,7 @@ import java.time.LocalDateTime;
                 @Index(name = "sku_index", columnList = "sku")
         }
 )
-public class Product {
+public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
