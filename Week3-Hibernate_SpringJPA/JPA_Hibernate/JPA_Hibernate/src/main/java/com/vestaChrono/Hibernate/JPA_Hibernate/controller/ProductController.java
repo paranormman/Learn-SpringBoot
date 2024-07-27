@@ -1,0 +1,25 @@
+package com.vestaChrono.Hibernate.JPA_Hibernate.controller;
+
+import com.vestaChrono.Hibernate.JPA_Hibernate.entities.ProductEntity;
+import com.vestaChrono.Hibernate.JPA_Hibernate.repository.ProductRepository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(path = "/products")
+public class ProductController {
+
+    private final ProductRepository productRepository;
+
+    public ProductController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    @GetMapping
+    public List<ProductEntity> getAllProducts() {
+        return productRepository.findByTitleOrderByPrice("Mazza");
+    }
+}

@@ -4,11 +4,13 @@ import com.vestaChrono.Hibernate.JPA_Hibernate.entities.ProductEntity;
 import com.vestaChrono.Hibernate.JPA_Hibernate.entities.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
+@Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     List<ProductEntity> findByTitle(String title);
@@ -33,5 +35,4 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findByTitleOrderByPrice(String title);
 
     List<ProductEntity> findByOrderByPrice();
-
 }
