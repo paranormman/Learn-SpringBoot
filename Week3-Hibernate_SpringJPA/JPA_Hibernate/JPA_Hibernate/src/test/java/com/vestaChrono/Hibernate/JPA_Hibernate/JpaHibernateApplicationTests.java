@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,26 +35,32 @@ class JpaHibernateApplicationTests {
 	}
 
 	@Test
-	void getRepositories() {
+	void getRepository() {
 //		List<ProductEntity> entities = productRepository.findAll();
+
+//		List<ProductEntity> entities = productRepository.findByCreatedAtAfter(
+//				LocalDateTime.of(2024, 1, 1, 0,0,0)
+//		);
+
+//		List<ProductEntity> newEntities = productRepository.findByQuantityGreaterThanOrPriceLessThan(4, BigDecimal.valueOf(24.35));
+
+//		List<ProductEntity> entities = productRepository.findByTitleLike("%mazza%");
+
+//		List<ProductEntity> newEntities = productRepository.findByQuantityGreaterThanOrPriceLessThan(4, BigDecimal.valueOf(24.35));
 
 //		List<ProductEntity> entities = productRepository.findByTitle("Pepsi");
 
-//		List<ProductEntity> entities = productRepository.findByTitleLike("Mazza");
+//		List<ProductEntity> entities = productRepository.findByTitleContaining("choco");
 
-//		List<ProductEntity> entities = productRepository.findByTitleOrderByPrice("Pringles");
-
-//		Optional<ProductEntity> entities = productRepository.findByTitleAndPrice("Cheetos", BigDecimal.valueOf(23.4));
-
-		List<ProductEntity> entities = productRepository.findByCreatedAtAfter(
-				LocalDateTime.of(2024, 1, 1, 0, 0, 0));
+		List<ProductEntity> entities = productRepository.findByTitleContainingIgnoreCase("choco", null);
 		System.out.println(entities);
 	}
 
 	@Test
 	void getSingleFromRepository() {
-		Optional<ProductEntity> entities = productRepository.findByTitleAndPrice("7UP", BigDecimal.valueOf(19.7));
-		entities.ifPresent(System.out::println);
+		Optional<ProductEntity> productEntity = productRepository
+				.findByTitleAndPrice("pepsi", BigDecimal.valueOf(14.4));
+		productEntity.ifPresent(System.out::println);
 	}
 
 }

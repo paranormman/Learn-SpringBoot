@@ -2,6 +2,8 @@ package com.vestaChrono.Hibernate.JPA_Hibernate.repository;
 
 import com.vestaChrono.Hibernate.JPA_Hibernate.entities.ProductEntity;
 import com.vestaChrono.Hibernate.JPA_Hibernate.entities.ProductEntity;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    List<ProductEntity> findByTitle(String title);
+    List<ProductEntity> findByTitle(String title, Pageable pageable);
 
 //    List<ProductEntity> findByCreatedAtAfter(LocalDateTime after);
 
@@ -24,7 +26,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     List<ProductEntity> findByTitleContaining(String title);
 
-    List<ProductEntity> findByTitleContainingIgnoreCase(String title);
+    List<ProductEntity> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 
 //    Optional<ProductEntity> findByTitleAndPrice(String title, BigDecimal price);
 
@@ -35,4 +37,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findByTitleOrderByPrice(String title);
 
     List<ProductEntity> findByOrderByPrice();
+
+    List<ProductEntity> findBy(Sort sort);
+
+    List<ProductEntity> findByCreatedAtAfter(LocalDateTime of);
 }
