@@ -1,9 +1,7 @@
 package com.vestaChrono.DataMapping.One_To_One.Mapping.controllers;
 
 import com.vestaChrono.DataMapping.One_To_One.Mapping.entities.DepartmentEntity;
-import com.vestaChrono.DataMapping.One_To_One.Mapping.repositories.DepartmentRepository;
 import com.vestaChrono.DataMapping.One_To_One.Mapping.services.DepartmentService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +16,7 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @GetMapping(path = "/{departmentId}")
+    @GetMapping("/{departmentId}")
     public DepartmentEntity getDepartmentById(@PathVariable Long departmentId) {
         return departmentService.getDepartmentById(departmentId);
     }
@@ -28,4 +26,14 @@ public class DepartmentController {
         return departmentService.createNewDepartment(departmentEntity);
     }
 
+    @PutMapping(path = "/{departmentId}/manager/{employeeId}")
+    public DepartmentEntity assignManagerToDepartment(@PathVariable Long departmentId,
+                                                      @PathVariable Long employeeId) {
+        return departmentService.assignManagerToDepartment(departmentId, employeeId);
+    }
+
+    @GetMapping(path = "/assignedDepartmentOfManager/{employeeId}")
+    public DepartmentEntity getAssignedDepartmentOfManager(@PathVariable Long employeeId) {
+        return departmentService.getAssignedDepartmentOfManager(employeeId);
+    }
 }

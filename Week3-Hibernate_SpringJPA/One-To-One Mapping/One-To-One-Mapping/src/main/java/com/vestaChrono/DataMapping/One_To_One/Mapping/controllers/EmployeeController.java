@@ -17,7 +17,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping(path = "/{employeeId}")
+    @GetMapping("/{employeeId}")
     public EmployeeEntity getEmployeeById(@PathVariable Long employeeId) {
         return employeeService.getEmployeeById(employeeId);
     }
