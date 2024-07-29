@@ -1,10 +1,15 @@
 package com.vestaChrono.DataMapping.One_To_One.Mapping.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+import java.util.Set;
+
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -22,4 +27,21 @@ public class DepartmentEntity {
     @JoinColumn(name = "department_name")
     private EmployeeEntity manager;
 
+    @OneToMany(mappedBy = "workerDepartment", fetch = FetchType.EAGER)
+    private Set<EmployeeEntity> workers;
+
+    @ManyToMany(mappedBy = "freelanceDepartments")
+    private Set<EmployeeEntity> freelancers;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DepartmentEntity that)) return false;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTitle());
+    }
 }
