@@ -24,5 +24,4 @@ public class SubjectController {
         return subjectService.getSubjectById(subjectId);
     }
 
-
 }
