@@ -25,4 +25,10 @@ public class AdmissionRecordController {
         return admissionRecordService.getAdmissionRecordById(admissionId);
     }
 
+    @PutMapping(path = "/{admissionId}/student/{studentId}")
+    public AdmissionRecordEntity assignAdmissionToStudent(@PathVariable Long admissionId,
+                                                          @PathVariable Long studentId) {
+        return admissionRecordService.assignAdmissionToStudent(admissionId, studentId);
+    }
+
 }

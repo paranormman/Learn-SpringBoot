@@ -23,5 +23,8 @@ public class AdmissionRecordEntity {
 
     private Integer fees;
 
+    @OneToOne
+    @JoinColumn(name = "Student_Admitted")
+    private StudentEntity studentRecord;
 
 }
