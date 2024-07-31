@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,12 +26,22 @@ public class StudentEntity {
     @Column(nullable = false)
     private String name;
 
-    List<String> professor;
-
-    List<String> subjects;
-
     @OneToOne(mappedBy = "studentRecord")
     @JsonIgnore
     private AdmissionRecordEntity manageAdmissionRecord;
 
+    @ManyToMany(mappedBy = "students")
+    private Set<ProfessorEntity> professors;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StudentEntity that)) return false;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
+    }
 }

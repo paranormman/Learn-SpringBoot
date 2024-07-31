@@ -26,9 +26,15 @@ public class ProfessorController {
     }
 
     @PutMapping(path = "/{professorId}/subject/{subjectId}")
-    public ProfessorEntity addSubjectToProfessor(@PathVariable Long subjectId,
-                                                 @PathVariable Long professorId) {
-        return professorService.addSubjectToProfessor(subjectId, professorId);
+    public ProfessorEntity addSubjectToProfessor(@PathVariable Long professorId,
+                                                 @PathVariable Long subjectId) {
+        return professorService.addSubjectToProfessor(professorId, subjectId);
+    }
+
+    @PutMapping(path = "/{professorId}/students/{studentId}")
+    public ProfessorEntity addProfessorToStudent(@PathVariable Long professorId,
+                                                 @PathVariable Long studentId) {
+        return professorService.addProfessorToStudent(professorId, studentId);
     }
 
 }

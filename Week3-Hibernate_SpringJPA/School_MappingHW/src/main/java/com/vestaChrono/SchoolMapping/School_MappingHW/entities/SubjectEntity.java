@@ -25,7 +25,7 @@ public class SubjectEntity {
     @Column(nullable = false)
     private String subjectTitle;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "prof_subject_id")
     @JsonIgnore
     private ProfessorEntity professor;

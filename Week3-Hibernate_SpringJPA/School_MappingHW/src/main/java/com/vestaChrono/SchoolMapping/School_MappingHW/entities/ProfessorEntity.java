@@ -1,5 +1,6 @@
 package com.vestaChrono.SchoolMapping.School_MappingHW.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,10 +26,15 @@ public class ProfessorEntity {
     @Column(nullable = false)
     private String professorName;
 
-    @OneToMany(mappedBy = "professor")
+    @OneToMany(mappedBy = "professor", fetch = FetchType.EAGER)
     private Set<SubjectEntity> subjects;
 
-//    private List<String> students;
+    @ManyToMany
+    @JoinTable(name = "student_professor_mapping",
+            joinColumns = @JoinColumn(name = "professor_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    @JsonIgnore
+    private Set<StudentEntity> students;
 
     @Override
     public boolean equals(Object o) {
