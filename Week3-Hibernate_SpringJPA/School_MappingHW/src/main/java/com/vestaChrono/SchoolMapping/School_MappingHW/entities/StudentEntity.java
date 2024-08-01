@@ -31,7 +31,14 @@ public class StudentEntity {
     private AdmissionRecordEntity manageAdmissionRecord;
 
     @ManyToMany(mappedBy = "students")
+    @JsonIgnore
     private Set<ProfessorEntity> professors;
+
+    @ManyToMany
+    @JoinTable(name = "subject_student_mapping",
+        joinColumns = @JoinColumn(name = "studentId"),
+        inverseJoinColumns = @JoinColumn(name = "subjectId"))
+    private Set<SubjectEntity> subjects;
 
     @Override
     public boolean equals(Object o) {

@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -29,6 +30,10 @@ public class SubjectEntity {
     @JoinColumn(name = "prof_subject_id")
     @JsonIgnore
     private ProfessorEntity professor;
+
+    @ManyToMany(mappedBy = "subjects")
+    @JsonIgnore
+    private Set<StudentEntity> students;
 
     @Override
     public boolean equals(Object o) {

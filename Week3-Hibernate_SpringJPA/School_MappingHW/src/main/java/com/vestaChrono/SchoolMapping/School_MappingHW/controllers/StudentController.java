@@ -25,4 +25,15 @@ public class StudentController {
         return studentService.getStudentById(studentId);
     }
 
+    @PutMapping(path = "/{studentId}/subjects/{subjectId}")
+    public StudentEntity addStudentToSubject(@PathVariable Long studentId,
+                                             @PathVariable Long subjectId) {
+        return studentService.addStudentToSubject(studentId, subjectId);
+    }
+
+    @DeleteMapping(path = "/{studentId}")
+    public void deleteStudentById(@PathVariable Long studentId) {
+        studentService.deleteStudentById(studentId);
+    }
+
 }

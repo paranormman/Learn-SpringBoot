@@ -33,7 +33,7 @@ public class ProfessorEntity {
     @JoinTable(name = "student_professor_mapping",
             joinColumns = @JoinColumn(name = "professor_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
-    @JsonIgnore
+//    @JsonIgnore
     private Set<StudentEntity> students;
 
     @Override
