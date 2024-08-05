@@ -16,6 +16,11 @@ public class RestClientConfig {
 
     @Value("${employeeService.base.url}")
     private String BASE_URL;
+    @Value("${exchangeRatesService.base.url}")
+    private String CURRENCY_EXCHANGE_URL;
+    @Value("${exchangeRatesService.API_KEY}")
+    private String API_KEY;
+
 
     @Bean
     @Qualifier("employeeRestClient")
@@ -25,6 +30,18 @@ public class RestClientConfig {
                 .defaultHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .defaultStatusHandler(HttpStatusCode::is5xxServerError, (req, res) -> {
                     throw new RuntimeException("Server error occurred");
+                })
+                .build();
+    }
+
+    @Bean
+    @Qualifier("currencyRestClient")
+    RestClient getCurrencyServiceRestClient(){
+        return RestClient.builder()
+                .baseUrl(CURRENCY_EXCHANGE_URL)
+                .defaultHeader(CONTENT_TYPE,APPLICATION_JSON_VALUE)
+                .defaultStatusHandler(HttpStatusCode::is5xxServerError,(request, response) -> {
+                    throw new RuntimeException("Server error occurred ");
                 })
                 .build();
     }
