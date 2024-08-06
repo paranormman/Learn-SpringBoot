@@ -38,7 +38,7 @@ public class PostServiceImpl implements PostService {
     public PostDto getPostById(Long postId) {
         PostEntity findPostById = postRepository
                 .findById(postId)
-                .orElseThrow(() -> new ResourceNotFoundException("Post Not found With Id" + postId));
+                .orElseThrow(() -> new ResourceNotFoundException("Post Not found With Id " + postId));
         return modelMapper.map(findPostById, PostDto.class);
     }
 
@@ -46,7 +46,7 @@ public class PostServiceImpl implements PostService {
     public PostDto updatePostById(PostDto inputPost, Long postId) {
         PostEntity oldPost = postRepository
                 .findById(postId)
-                .orElseThrow(() -> new ResourceNotFoundException("Post Not found With Id" + postId));
+                .orElseThrow(() -> new ResourceNotFoundException("Post Not found With Id " + postId));
         inputPost.setId(postId);
         modelMapper.map(oldPost, inputPost);
 //        PostEntity savePost = postRepository.save(oldPost);
