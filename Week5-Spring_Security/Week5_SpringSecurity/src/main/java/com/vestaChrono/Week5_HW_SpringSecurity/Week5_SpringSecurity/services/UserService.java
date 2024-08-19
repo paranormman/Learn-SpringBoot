@@ -1,13 +1,18 @@
 package com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.services;
 
+import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.dto.LoginDto;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.dto.SignUpDto;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.dto.UserDto;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.entity.User;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.exception.ResourceNotFoundException;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.repositories.UserRepository;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
