@@ -3,11 +3,14 @@ package com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.services.im
 
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.dto.PostDto;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.entity.PostEntity;
+import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.entity.User;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.exception.ResourceNotFoundException;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.repositories.PostRepository;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.services.PostService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
@@ -37,6 +41,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto getPostById(Long postId) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        log.info("User {}", user);
+
         PostEntity findPostById = postRepository
                 .findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found with Id " + postId));
