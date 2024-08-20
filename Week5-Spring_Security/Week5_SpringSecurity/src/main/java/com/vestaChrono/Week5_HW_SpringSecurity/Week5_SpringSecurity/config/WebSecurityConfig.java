@@ -2,6 +2,7 @@ package com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.config;
 
 
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.filters.JwtAuthFilter;
+import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.filters.LoggingFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final LoggingFilter loggingFilter;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -32,7 +34,7 @@ public class WebSecurityConfig {
                 .csrf(csrfConfig -> csrfConfig.disable())
                 .sessionManagement(sessionCreation -> sessionCreation
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterBefore()
+                .addFilterBefore(loggingFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 //                .formLogin(Customizer.withDefaults());
 

@@ -4,6 +4,7 @@ import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.dto.LoginDto
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.dto.SignUpDto;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.dto.UserDto;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.services.LoginAuthService;
+import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.services.SessionService;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.services.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ public class AuthController {
 
     private final UserService userService;
     private final LoginAuthService loginAuthService;
+    private final SessionService sessionService;
 
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signUp(@RequestBody SignUpDto signUpDto) {

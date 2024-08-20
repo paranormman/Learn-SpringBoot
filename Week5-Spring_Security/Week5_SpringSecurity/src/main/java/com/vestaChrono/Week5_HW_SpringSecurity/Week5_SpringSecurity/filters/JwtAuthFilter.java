@@ -2,6 +2,7 @@ package com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.filters;
 
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.entity.User;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.services.JwtService;
+import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.services.SessionService;
 import com.vestaChrono.Week5_HW_SpringSecurity.Week5_SpringSecurity.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,6 +26,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserService userService;
+    private final SessionService sessionService;
 
     @Autowired
     @Qualifier("handlerExceptionResolver")
@@ -41,10 +43,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
 
             String token = requestTokenHeader.split("Bearer ")[1];
-
             Long userId = jwtService.getUserIdFromToken(token);
 
-            if (userId != null) {
+            if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null && sessionService.isTokenValid(userId, token)) {
                 User user = userService.userById(userId);
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(user, null, null);
