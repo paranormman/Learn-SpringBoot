@@ -6,20 +6,17 @@ import com.chronoVesta.SecurityApp.SecurityApplication.handlers.OAuth2SuccessHan
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static com.chronoVesta.SecurityApp.SecurityApplication.entity.enums.Role.ADMIN;
+import static com.chronoVesta.SecurityApp.SecurityApplication.entity.enums.Role.CREATOR;
 
 @Configuration
 @EnableWebSecurity
@@ -29,12 +26,18 @@ public class WebSecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
+    private static final String[] publicRoutes = {
+            "/auth/**", "/home.html", "/oauth2/**"
+    };
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/posts", "/auth/**", "/home.html", "/oauth2/**").permitAll()
-//                        .requestMatchers("/posts/**").hasAnyRole("ADMIN")
+                        .requestMatchers(publicRoutes).permitAll()
+                        .requestMatchers(HttpMethod.GET,"/posts/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/posts/**")
+                            .hasAnyRole(ADMIN.name(), CREATOR.name())
                         .anyRequest().authenticated())
                 .csrf(csrfConfig -> csrfConfig.disable())       //remove the use of csrf token
                 .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -53,21 +56,5 @@ public class WebSecurityConfig {
         return config.getAuthenticationManager();
     }
 
-//    @Bean
-//    UserDetailsService myInMemoryUserDetailsService() {
-//        UserDetails normalUser = User
-//                .withUsername("manoj")
-//                .password(passwordEncoder().encode("Manasa123"))
-//                .roles("USER")
-//                .build();
-//
-//        UserDetails adminUser = User
-//                .withUsername("user")
-//                .password(passwordEncoder().encode("user"))
-//                .roles("ADMIN")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(normalUser, adminUser);
-//    }
 
 }
