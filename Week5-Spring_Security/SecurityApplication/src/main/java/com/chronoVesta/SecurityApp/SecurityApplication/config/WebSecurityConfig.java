@@ -15,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.chronoVesta.SecurityApp.SecurityApplication.entity.enums.Permission.*;
 import static com.chronoVesta.SecurityApp.SecurityApplication.entity.enums.Role.ADMIN;
 import static com.chronoVesta.SecurityApp.SecurityApplication.entity.enums.Role.CREATOR;
 
@@ -38,6 +39,10 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/posts/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/posts/**")
                             .hasAnyRole(ADMIN.name(), CREATOR.name())
+                        .requestMatchers(HttpMethod.POST, "/posts/**").hasAnyAuthority(POST_CREATE.name())
+                        .requestMatchers(HttpMethod.GET, "/posts/**").hasAuthority(POST_VIEW.name())
+                        .requestMatchers(HttpMethod.PATCH   , "/posts/**").hasAuthority(POST_UPDATE.name())
+                        .requestMatchers(HttpMethod.DELETE, "/posts/**").hasAuthority(POST_DELETE.name())
                         .anyRequest().authenticated())
                 .csrf(csrfConfig -> csrfConfig.disable())       //remove the use of csrf token
                 .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
