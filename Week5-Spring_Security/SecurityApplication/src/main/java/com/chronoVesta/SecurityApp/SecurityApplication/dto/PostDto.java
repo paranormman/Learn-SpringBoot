@@ -18,4 +18,6 @@ public class PostDto {
 
     private String description;
 
+    private UserDto author;
+
 }
