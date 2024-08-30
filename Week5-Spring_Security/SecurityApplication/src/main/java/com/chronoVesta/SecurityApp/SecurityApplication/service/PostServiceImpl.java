@@ -6,10 +6,8 @@ import com.chronoVesta.SecurityApp.SecurityApplication.entity.User;
 import com.chronoVesta.SecurityApp.SecurityApplication.exceptions.ResourceNotFoundException;
 import com.chronoVesta.SecurityApp.SecurityApplication.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -44,9 +42,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto getPostById(Long postId) {
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        log.info("user {}", user);
-
         PostEntity findPostById = postRepository
                 .findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post Not found With Id " + postId));

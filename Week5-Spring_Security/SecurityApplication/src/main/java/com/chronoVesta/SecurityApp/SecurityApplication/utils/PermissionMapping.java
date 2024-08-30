@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.chronoVesta.SecurityApp.SecurityApplication.entity.enums.Role.*;
 import static com.chronoVesta.SecurityApp.SecurityApplication.entity.enums.Permission.*;
+import static com.chronoVesta.SecurityApp.SecurityApplication.entity.enums.Role.*;
 
 public class PermissionMapping {
 

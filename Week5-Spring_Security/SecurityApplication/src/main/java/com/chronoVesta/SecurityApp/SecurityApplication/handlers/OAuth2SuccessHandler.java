@@ -3,7 +3,6 @@ package com.chronoVesta.SecurityApp.SecurityApplication.handlers;
 import com.chronoVesta.SecurityApp.SecurityApplication.entity.User;
 import com.chronoVesta.SecurityApp.SecurityApplication.service.JwtService;
 import com.chronoVesta.SecurityApp.SecurityApplication.service.UserService;
-import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

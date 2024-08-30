@@ -1,7 +1,7 @@
 package com.chronoVesta.SecurityApp.SecurityApplication.entity;
 
-import com.chronoVesta.SecurityApp.SecurityApplication.entity.enums.Permission;
 import com.chronoVesta.SecurityApp.SecurityApplication.entity.enums.Role;
+import com.chronoVesta.SecurityApp.SecurityApplication.entity.enums.SubscriptionPlan;
 import com.chronoVesta.SecurityApp.SecurityApplication.utils.PermissionMapping;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,9 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Getter
@@ -39,6 +37,9 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @Enumerated(EnumType.STRING)
+    private SubscriptionPlan subscriptionPlan;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
