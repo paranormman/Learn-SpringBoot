@@ -1,0 +1,14 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: dummy
+            client-secret: dummy
+          github:
+            client-id: LJBHLWJBHALWJEFLKWJFWKANFKJN
+            client-secret: jsafhduwbfajbfluyrelggaeiglj
+          facebook:
+            client-id: kjhlbwelwenfvbjhcsjh
+            client-secret: linwliwufelnlWKCJNKWE
