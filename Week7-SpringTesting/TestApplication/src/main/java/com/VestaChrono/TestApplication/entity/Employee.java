@@ -21,5 +21,5 @@ public class Employee {
     @Column(unique = true)
     private String email;
 
-    private String salary;
+    private Long salary;
 }
