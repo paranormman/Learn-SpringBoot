@@ -1,5 +1,6 @@
 package com.VestaChrono.TestApplication.repository;
 
+import com.VestaChrono.TestApplication.TestContainerConfiguration;
 import com.VestaChrono.TestApplication.entity.Employee;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -7,14 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
 import static org.assertj.core.api.ClassBasedNavigableIterableAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Import(TestContainerConfiguration.class)
 @DataJpaTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class EmployeeRepositoryTest {
 
     @Autowired
@@ -47,7 +50,7 @@ class EmployeeRepositoryTest {
         List<Employee> employeeList = employeeRepository.findByEmail(email);
 //        Assert, Then
         Assertions.assertThat(employeeList).isNotNull();
-        Assertions.assertThat(employeeList)
+        Assertions.assertThat(employeeList).isEmpty();
 
     }
 }
