@@ -40,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 //        check if the employee with email is already created
         if (!existingEmployees.isEmpty()){
             log.error("Employee already exists with email: {}", employeeDto.getEmail());
-            throw new RuntimeException("Employee already exists with email: {}" + employeeDto.getEmail());
+            throw new RuntimeException("Employee already exists with email: " + employeeDto.getEmail());
         }
 
 //        convert employeeDto to entity to create a new employee and save in repo
@@ -66,8 +66,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new RuntimeException("The email of the employee can not be updated");
         }
 //        update the details and map it to employee
-        employeeDto.setId(null);
         modelMapper.map(employeeDto, employee);
+        employeeDto.setId(id);
 //        save the updated employee to repository
         Employee savedEmployee = employeeRepository.save(employee);
 //        return updated employee as employeeDto
