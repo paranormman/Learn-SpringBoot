@@ -16,6 +16,7 @@ public class EmployeeDto {
     private Long id;
     private String name;
     private String email;
+    private Long salary;
 
     @Override
     public boolean equals(Object o) {
@@ -29,5 +30,4 @@ public class EmployeeDto {
         return Objects.hash(getId(), getName(), getEmail(), getSalary());
     }
 
-    private Long salary;
 }

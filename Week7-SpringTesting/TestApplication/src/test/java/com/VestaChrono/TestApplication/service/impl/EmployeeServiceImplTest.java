@@ -30,17 +30,16 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class EmployeeServiceImplTest {
 
-    @InjectMocks
-    private EmployeeServiceImpl employeeServiceImpl;
-
     @Mock
     private EmployeeRepository employeeRepository;
 
     @Spy
     private ModelMapper modelMapper;
 
-    private Employee mockEmployee;
+    @InjectMocks
+    private EmployeeServiceImpl employeeServiceImpl;
 
+    private Employee mockEmployee;
     private EmployeeDto mockEmployeeDto;
 
     @BeforeEach
