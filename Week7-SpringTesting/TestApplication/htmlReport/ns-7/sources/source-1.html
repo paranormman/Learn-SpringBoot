@@ -1,0 +1,207 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > EmployeeServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.VestaChrono.TestApplication.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: EmployeeServiceImpl (com.VestaChrono.TestApplication.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EmployeeServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (37/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.VestaChrono.TestApplication.service.impl;
+&nbsp;
+&nbsp;import com.VestaChrono.TestApplication.dto.EmployeeDto;
+&nbsp;import com.VestaChrono.TestApplication.entity.Employee;
+&nbsp;import com.VestaChrono.TestApplication.exception.ResourceNotFoundException;
+&nbsp;import com.VestaChrono.TestApplication.repository.EmployeeRepository;
+&nbsp;import com.VestaChrono.TestApplication.service.EmployeeService;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.modelmapper.ModelMapper;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;@RequiredArgsConstructor
+&nbsp;public class EmployeeServiceImpl implements EmployeeService {
+&nbsp;
+&nbsp;    private final EmployeeRepository employeeRepository;
+&nbsp;    private final ModelMapper modelMapper;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public EmployeeDto getEmployeeById(Long id) {
+<b class="fc">&nbsp;        log.info(&quot;Fetching employee with id: {}&quot;, id);</b>
+<b class="fc">&nbsp;        Employee employee = employeeRepository.findById(id)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; {</b>
+<b class="fc">&nbsp;                    log.error(&quot;Employee not found with Id: {}&quot;, id);</b>
+<b class="fc">&nbsp;                    return new ResourceNotFoundException(&quot;Employee not found with id: &quot; + id);</b>
+&nbsp;                });
+<b class="fc">&nbsp;        log.info(&quot;Successfully fetched Employee with Id: {}&quot;, id);</b>
+<b class="fc">&nbsp;        return modelMapper.map(employee, EmployeeDto.class);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public EmployeeDto createEmployee(EmployeeDto employeeDto) {
+<b class="fc">&nbsp;        log.info(&quot;Create new employee with email {}&quot;, employeeDto.getEmail());</b>
+<b class="fc">&nbsp;        List&lt;Employee&gt; existingEmployees = employeeRepository.findByEmail(employeeDto.getEmail());</b>
+&nbsp;//        check if the employee with email is already created
+<b class="fc">&nbsp;        if (!existingEmployees.isEmpty()){</b>
+<b class="fc">&nbsp;            log.error(&quot;Employee already exists with email: {}&quot;, employeeDto.getEmail());</b>
+<b class="fc">&nbsp;            throw new RuntimeException(&quot;Employee already exists with email: &quot; + employeeDto.getEmail());</b>
+&nbsp;        }
+&nbsp;
+&nbsp;//        convert employeeDto to entity to create a new employee and save in repo
+<b class="fc">&nbsp;        Employee newEmployee = modelMapper.map(employeeDto, Employee.class);</b>
+<b class="fc">&nbsp;        Employee savedEmployee = employeeRepository.save(newEmployee);</b>
+<b class="fc">&nbsp;        log.info(&quot;Successfully created employee with Id: {}&quot;, employeeDto.getId());</b>
+&nbsp;//        return the employee by mapping into dto
+<b class="fc">&nbsp;        return modelMapper.map(savedEmployee, EmployeeDto.class);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public EmployeeDto updateEmployee(Long id, EmployeeDto employeeDto) {
+<b class="fc">&nbsp;        log.info(&quot;Updating employee with Id: {}&quot;, id);</b>
+&nbsp;//        check if the employee with id exists in the repository
+<b class="fc">&nbsp;        Employee employee = employeeRepository.findById(id)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; {</b>
+<b class="fc">&nbsp;                    log.error(&quot;Employee not found with Id: {}&quot;,id);</b>
+<b class="fc">&nbsp;                    return new ResourceNotFoundException(&quot;employee not found with Id: &quot; + id);</b>
+&nbsp;                });
+&nbsp;//        check if the correct user is updating the entry
+<b class="fc">&nbsp;        if (!employee.getEmail().equals(employeeDto.getEmail())) {</b>
+<b class="fc">&nbsp;            log.error(&quot;Attempted to update email for employee with id: {}&quot;, id);</b>
+<b class="fc">&nbsp;            throw new RuntimeException(&quot;The email of the employee can not be updated&quot;);</b>
+&nbsp;        }
+&nbsp;//        update the details and map it to employee
+<b class="fc">&nbsp;        modelMapper.map(employeeDto, employee);</b>
+<b class="fc">&nbsp;        employeeDto.setId(id);</b>
+&nbsp;//        save the updated employee to repository
+<b class="fc">&nbsp;        Employee savedEmployee = employeeRepository.save(employee);</b>
+&nbsp;//        return updated employee as employeeDto
+<b class="fc">&nbsp;        log.info(&quot;Successfully updated employee with id: {}&quot;, id);</b>
+<b class="fc">&nbsp;        return modelMapper.map(savedEmployee, EmployeeDto.class);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void deleteEmployee(Long id) {
+<b class="fc">&nbsp;        log.info(&quot;Deleting employee with Id: {}&quot;, id);</b>
+&nbsp;//        check if the employeeId exists
+<b class="fc">&nbsp;        boolean isExists = employeeRepository.existsById(id);</b>
+<b class="fc">&nbsp;        if (!isExists) {</b>
+<b class="fc">&nbsp;            log.error(&quot;Employee not found with Id: {}&quot;, id);</b>
+<b class="fc">&nbsp;            throw new ResourceNotFoundException(&quot;Employee not found with Id: &quot;+id);</b>
+&nbsp;        }
+&nbsp;//        delete employee from repository
+<b class="fc">&nbsp;        employeeRepository.deleteById(id);</b>
+<b class="fc">&nbsp;        log.info(&quot;Successfully deleted Employee with Id: {}&quot;, id);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-09-11 09:40</div>
+</div>
+</body>
+</html>
